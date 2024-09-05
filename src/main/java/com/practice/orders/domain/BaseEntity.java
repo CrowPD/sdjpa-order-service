@@ -2,6 +2,7 @@ package com.practice.orders.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -14,6 +15,9 @@ public abstract class BaseEntity {
 	@CreationTimestamp
 	@Column(updatable = false)
 	private Timestamp createdDate;
+
+	@UpdateTimestamp
+	private Timestamp lastModifiedDate;
 
 	public Long getId() {
 		return id;
@@ -31,18 +35,27 @@ public abstract class BaseEntity {
 		this.createdDate = createdDate;
 	}
 
+	public Timestamp getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Timestamp lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof BaseEntity that)) return false;
 
-		return Objects.equals(id, that.id) && Objects.equals(createdDate, that.createdDate);
+		return Objects.equals(id, that.id) && Objects.equals(createdDate, that.createdDate) && Objects.equals(lastModifiedDate, that.lastModifiedDate);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = Objects.hashCode(id);
 		result = 31 * result + Objects.hashCode(createdDate);
+		result = 31 * result + Objects.hashCode(lastModifiedDate);
 		return result;
 	}
 }

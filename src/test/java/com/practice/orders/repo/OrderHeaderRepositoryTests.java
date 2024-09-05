@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -34,5 +34,15 @@ public class OrderHeaderRepositoryTests {
 
 		assertNotNull(saved.getId());
 		assertNotNull(saved.getCreatedDate());
+
+		saved.setCustomerName("Oleg");
+		orderHeaderRepository.save(saved);
+		OrderHeader updated = orderHeaderRepository.findById(saved.getId()).get();
+
+		assertEquals(saved.getId(), updated.getId());
+		assertEquals(saved.getCreatedDate(), updated.getCreatedDate());
+		assertEquals(saved.getCustomerName(), updated.getCustomerName());
+
+		assertNotNull(updated.getLastModifiedDate());
 	}
 }
