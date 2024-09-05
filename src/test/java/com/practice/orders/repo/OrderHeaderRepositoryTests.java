@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class OrderHeaderRepositoryTests {
@@ -19,7 +21,17 @@ public class OrderHeaderRepositoryTests {
 	void testBasicRead() {
 		List<OrderHeader> all = orderHeaderRepository.findAll();
 
-		Assertions.assertNotNull(all);
+		assertNotNull(all);
 		Assertions.assertFalse(all.isEmpty());
+	}
+
+	@Test
+	void testDml() {
+		var header = new OrderHeader();
+		header.setCustomerName("Mickey");
+		var saved = orderHeaderRepository.save(header);
+		assertNotNull(saved);
+
+		assertNotNull(saved.getId());
 	}
 }
