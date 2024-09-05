@@ -33,5 +33,6 @@ public class OrderHeaderRepositoryTests {
 		assertNotNull(saved);
 
 		assertNotNull(saved.getId());
+		assertNotNull(saved.getCreatedDate());
 	}
 }
